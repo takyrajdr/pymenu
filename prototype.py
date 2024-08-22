@@ -28,8 +28,41 @@ def get_soup(url: str,cert_url:str) -> BeautifulSoup:
     if cert_url != "":
         swatch_cert = get_verification_certificate(cert_url=cert_url)
         req.verify = swatch_cert
-    headers = {} # Headers
+    headers = {
+        'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7',
+        'Accept-Encoding': 'gzip, deflate, br, zstd',
+        'Accept-Language': 'en-US,en;q=0.9,cs;q=0.8',
+        'Connection': 'keep-alive',
+        'Host': 'www.klanovkabistro.cz',
+        'Sec-Fetch-Dest': 'document',
+        'Sec-Fetch-Mode': 'navigate',
+        'Sec-Fetch-Site': 'none',
+        'Sec-Fetch-User': '?1',
+        'Upgrade-Insecure-Requests': '1',
+        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/127.0.0.0 Safari/537.36 Edg/127.0.0.0',
+        'sec-ch-ua': '"Not)A;Brand";v="99", "Microsoft Edge";v="127", "Chromium";v="127"',
+        'sec-ch-ua-mobile': '?0',
+        'sec-ch-ua-platform': '"Windows"',
+        # 'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7',
+        # 'Accept-Encoding': 'gzip, deflate, br, zstd',
+        # 'Accept-Language': 'en-US,en;q=0.9',
+        # 'Cache-Control': 'no-cache',
+        # 'Connection': 'keep-alive',
+        # 'Pragma': 'no-cache',
+        # 'Sec-Fetch-Dest': 'document',
+        # 'Sec-Fetch-Mode': 'navigate',
+        # 'Sec-Fetch-Site': 'none',
+        # 'Sec-Fetch-User': '?1',
+        # 'Upgrade-Insecure-Requests': '1',
+        # 'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/127.0.0.0 Safari/537.36',
+        # 'sec-ch-ua': '"Not)A;Brand";v="99", "Google Chrome";v="127", "Chromium";v="127"',
+        # 'sec-ch-ua-mobile': '?0',
+        # 'sec-ch-ua-platform': '"Windows"',
+    } # Headers, so that the get is similiar to wjhat would browser do
     page = req.get(url=url,headers=headers)
+    # When response is not OK. Print the response object (will print the code).
+    if page.status_code != 200:
+        print(page)
     return BeautifulSoup(page.content, "html.parser")
 
 def print_klanovka(cert_url):
